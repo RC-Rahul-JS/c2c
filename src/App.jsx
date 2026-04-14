@@ -91,29 +91,8 @@ const SplashPage = () => {
 
 // --- COMPONENT FOR INDIVIDUAL LEGAL PAGES ---
 const LegalPageWrapper = ({ children, title }) => {
-  const navigate = useNavigate();
   return (
     <div style={{ padding: '60px 20px', background: '#f8fafc', minHeight: '100vh' }}>
-      <button 
-        onClick={() => navigate('/')}
-        style={{
-          position: 'fixed',
-          top: '20px',
-          left: '20px',
-          padding: '10px 20px',
-          background: '#1a4c8a',
-          color: 'white',
-          border: 'none',
-          borderRadius: '30px',
-          cursor: 'pointer',
-          fontWeight: '600',
-          zIndex: 1000,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-        }}
-      >
-        ← BACK TO HOME
-      </button>
-
       <div className="glass-card" style={{ 
         maxWidth: '950px', 
         margin: '0 auto', 
