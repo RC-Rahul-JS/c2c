@@ -102,11 +102,6 @@ const LegalPageWrapper = ({ children, title }) => {
         boxShadow: '0 20px 50px rgba(0,0,0,0.05)',
         borderRadius: '24px'
       }}>
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <h2 style={{ color: '#1a4c8a', fontSize: '2.5rem', fontWeight: '800', margin: 0 }}>{title}</h2>
-          <div style={{ width: '60px', height: '4px', background: '#4ade80', margin: '20px auto' }}></div>
-        </div>
-
         {children}
       </div>
 
