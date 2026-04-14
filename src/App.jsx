@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import PrivacyPolicy from '../Privacy.jsx';
 import TermsAndConditions from '../TermsAndConditions.jsx';
 
-// --- PREMIUM SPLASH / LANDING PAGE ---
+// --- PREMIUM SPLASH PAGE WITH TWO ACCESS BUTTONS ---
 const SplashPage = () => {
   const navigate = useNavigate();
 
@@ -17,27 +17,30 @@ const SplashPage = () => {
       background: 'linear-gradient(135deg, #1a4c8a 0%, #001a33 100%)',
       color: 'white',
       textAlign: 'center',
-      fontFamily: "'Outfit', sans-serif"
+      fontFamily: "'Outfit', sans-serif",
+      padding: '20px'
     }}>
       <div className="glass-card" style={{ 
-        padding: '60px', 
+        padding: '60px 40px', 
         background: 'rgba(255, 255, 255, 0.05)',
         border: '1px solid rgba(255, 255, 255, 0.1)',
+        maxWidth: '600px',
+        width: '100%',
         animation: 'scaleUp 0.8s ease-out'
       }}>
-        <h1 style={{ fontSize: '4rem', margin: '0', letterSpacing: '2px', fontWeight: '800' }}>
+        <h1 style={{ fontSize: '3.5rem', margin: '0', letterSpacing: '2px', fontWeight: '800' }}>
           CARE<span style={{ color: '#4ade80' }}>2</span>CONNECT
         </h1>
-        <p style={{ fontSize: '1.2rem', color: '#cbd5e1', marginTop: '10px', fontWeight: '400' }}>
-          Your Trusted Healthcare Partner
+        <p style={{ fontSize: '1.2rem', color: '#cbd5e1', marginTop: '10px', fontWeight: '400', marginBottom: '50px' }}>
+          Official Legal Documentation Portal
         </p>
         
-        <div style={{ marginTop: '40px' }}>
-          <button 
-            onClick={() => navigate('/legal')}
-            className="enter-btn"
-          >
-            ENTER PORTAL
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <button onClick={() => navigate('/privacy')} className="portal-btn privacy">
+            VIEW PRIVACY POLICY
+          </button>
+          <button onClick={() => navigate('/terms')} className="portal-btn terms">
+            VIEW TERMS & CONDITIONS
           </button>
         </div>
       </div>
@@ -45,25 +48,40 @@ const SplashPage = () => {
       <style>
         {`
           @keyframes scaleUp {
-            from { opacity: 0; transform: scale(0.9); }
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
           }
-          .enter-btn {
-            background: #4ade80;
-            color: #001a33;
-            border: none;
-            padding: 16px 40px;
+          .portal-btn {
+            padding: 20px;
             font-size: 1.1rem;
             font-weight: 700;
-            border-radius: 50px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+          }
+          .privacy {
+            background: #4ade80;
+            color: #001a33;
             box-shadow: 0 10px 20px rgba(74, 222, 128, 0.2);
           }
-          .enter-btn:hover {
+          .privacy:hover {
+            background: #22c55e;
             transform: translateY(-3px);
             box-shadow: 0 15px 30px rgba(74, 222, 128, 0.4);
-            background: #22c55e;
+          }
+          .terms {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+          }
+          .terms:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            border-color: #4ade80;
           }
         `}
       </style>
@@ -71,31 +89,46 @@ const SplashPage = () => {
   );
 };
 
-// --- LEGAL CONTENT PAGE (Privacy + Terms) ---
-const LegalCenter = () => {
+// --- COMPONENT FOR INDIVIDUAL LEGAL PAGES ---
+const LegalPageWrapper = ({ children, title }) => {
+  const navigate = useNavigate();
   return (
     <div style={{ padding: '60px 20px', background: '#f8fafc', minHeight: '100vh' }}>
+      <button 
+        onClick={() => navigate('/')}
+        style={{
+          position: 'fixed',
+          top: '20px',
+          left: '20px',
+          padding: '10px 20px',
+          background: '#1a4c8a',
+          color: 'white',
+          border: 'none',
+          borderRadius: '30px',
+          cursor: 'pointer',
+          fontWeight: '600',
+          zIndex: 1000,
+          boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+        }}
+      >
+        ← BACK TO HOME
+      </button>
+
       <div className="glass-card" style={{ 
         maxWidth: '950px', 
         margin: '0 auto', 
         padding: '60px',
-        animation: 'fadeInUp 0.6s ease-out'
+        animation: 'fadeInUp 0.6s ease-out',
+        background: 'white',
+        boxShadow: '0 20px 50px rgba(0,0,0,0.05)',
+        borderRadius: '24px'
       }}>
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <h2 style={{ color: '#1a4c8a', fontSize: '2.5rem', fontWeight: '800' }}>Legal Documentation</h2>
+          <h2 style={{ color: '#1a4c8a', fontSize: '2.5rem', fontWeight: '800', margin: 0 }}>{title}</h2>
           <div style={{ width: '60px', height: '4px', background: '#4ade80', margin: '20px auto' }}></div>
         </div>
 
-        {/* Both documents shown in one clean flow */}
-        <section id="privacy">
-          <PrivacyPolicy />
-        </section>
-        
-        <div style={{ margin: '80px 0', borderTop: '2px dashed #e2e8f0' }}></div>
-        
-        <section id="terms">
-          <TermsAndConditions />
-        </section>
+        {children}
       </div>
 
       <style>
@@ -108,14 +141,21 @@ const LegalCenter = () => {
       </style>
     </div>
   );
-}
+};
 
 const App = () => {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<SplashPage />} />
-        <Route path="/legal" element={<LegalCenter />} />
+        <Route 
+          path="/privacy" 
+          element={<LegalPageWrapper title="Privacy Policy"><PrivacyPolicy /></LegalPageWrapper>} 
+        />
+        <Route 
+          path="/terms" 
+          element={<LegalPageWrapper title="Terms & Conditions"><TermsAndConditions /></LegalPageWrapper>} 
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
